@@ -1,7 +1,10 @@
+import Navbar from "./components/Navbar";
+import URLShortener from "./pages/URLShortener";
+
 function App() {
   return (
     <>
-      <h1 className="text-center text-green-700 font-bold">Hello</h1>
+<URLShortener />    
     </>
   );
 }
