@@ -1,10 +1,8 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import { FaCopy } from "react-icons/fa";
 import { BiLinkExternal } from "react-icons/bi";
 import { MdOutlineQrCode } from "react-icons/md";
 import { FaYoutube, FaTwitter, FaVimeo, FaImage } from "react-icons/fa";
-import { AiFillCheckCircle } from "react-icons/ai";
 import Hero from '../components/Hero';
 const URLShortener = () => {
 
@@ -63,7 +61,6 @@ const URLShortener = () => {
 
   return (
     <div className="text-white min-h-screen font-sans">
-      <Navbar />
       <Hero />
 
       {/* Table */}

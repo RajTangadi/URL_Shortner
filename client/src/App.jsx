@@ -1,10 +1,27 @@
+
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Signin from "./pages/Signin";
+import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
+import { ToastContainer } from "react-toastify";
 import URLShortener from "./pages/URLShortener";
+// import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <>
-<URLShortener />    
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<URLShortener />} />
+          <Route path="/sign-in" element={<Signin />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+        <ToastContainer />
+      </Router>
     </>
   );
 }
