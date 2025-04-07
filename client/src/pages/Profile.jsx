@@ -60,7 +60,7 @@ const Profile = () => {
 
       // console.log("form data object", formDataObj);
 
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`/api/auth/update/${currentUser._id}`, {
         method: "POST",
         credentials: "include",
         body: formDataObj,
