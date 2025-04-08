@@ -2,8 +2,11 @@ import Url from "../models/url.model.js";
 import { nanoid } from "nanoid";
 import useragent from "useragent";
 import validUrl from "valid-url";
+import moment from "moment";
 
-export const createShortUrl = async (req, res) => {
+export const createShortUrl = async (req, res, next) => {
+  // console.log("req.user1: ", req.user);
+
   const { originalUrl, shortCode } = req.body;
 
   try {
@@ -31,14 +34,17 @@ export const createShortUrl = async (req, res) => {
     } else {
       generatedCode = shortCode;
     }
-    // console.log(generatedCode);
 
     const shortUrl = `${process.env.BASE_URL}/${generatedCode}`;
+    console.log(shortUrl);
+
     const newUrl = await Url.create({
       originalUrl,
       shortCode: generatedCode,
-      shortUrl,
-      user: req.user._id,
+      shortUrl: shortUrl,
+      user: req?.user?.id,
+      status: req.expired ? "inactive" : "active",
+      createdAt: moment(req.createdAt).format("MM-DD-YYYY"),
     });
     await newUrl.save();
     res.json(newUrl);
@@ -47,16 +53,26 @@ export const createShortUrl = async (req, res) => {
   }
 };
 
-export const getUrls = async (req, res) => {
+export const getUrls = async (req, res, next) => {
   try {
-    const urls = await Url.find({ user: req.user._id }).sort({ createdAt: -1 });
-    res.json(urls); // return user’s URLs sorted by creation date
+    const urls = await Url.find({ user: req.user.id }).sort({ createdAt: -1 });
+    // console.log("urls", urls);
+    const formattedUrls = urls.map((url) => ({
+      id: url._id,
+      originalUrl: url.originalUrl,
+      shortCode: url.shortCode,
+      shortUrl: url.shortUrl,
+      clicks: url.clicks.length,
+      createdAt: moment(url.createdAt).format("MM-DD-YYYY"),
+    }));
+
+    res.json({  formattedUrls });
   } catch (error) {
     next(error);
   }
 };
 
-export const redirectShortUrl = async (req, res) => {
+export const redirectShortUrl = async (req, res, next) => {
   const { shortCode } = req.params;
 
   try {

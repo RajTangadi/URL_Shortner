@@ -45,6 +45,7 @@ const Signin = () => {
       }
 
       const data = await res.json();
+      localStorage.setItem("token", data.token);
 
       // Handle API-level errors
       if (data.success === false) {
@@ -66,6 +67,8 @@ const Signin = () => {
       });
 
       dispatch(sigInSuccess(data));
+      // localStorage.setItem("token", token);
+
       navigate("/");
     } catch (error) {
       // Handle all errors in one place
@@ -91,7 +94,7 @@ const Signin = () => {
 
   return (
     <div className="p-3 max-w-lg mx-auto text-white">
-      <h1 className="text-3xl text-center font-semibold my-7"> Login</h1> 
+      <h1 className="text-3xl text-center font-semibold my-7"> Login</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
           type="email"

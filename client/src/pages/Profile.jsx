@@ -23,6 +23,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(currentUser);
+
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -54,9 +56,9 @@ const Profile = () => {
         formDataObj.append("avatar", file);
       }
 
-      for (let pair of formDataObj.entries()) {
-        console.log("FormData:", pair[0], pair[1]); // Debug FormData contents
-      }
+      // for (let pair of formDataObj.entries()) {
+      //   console.log("FormData:", pair[0], pair[1]); // Debug FormData contents
+      // }
 
       // console.log("form data object", formDataObj);
 
@@ -172,8 +174,9 @@ const Profile = () => {
         position: "top-center",
         autoClose: 1000,
       });
+      // localStorage.removeItem("token");
       dispatch(signOutUserSuccess());
-      navigate('/sign-in');
+      navigate("/sign-in");
     } catch (error) {
       dispatch(signOutUserFailure(error.message || "Error signing out"));
       toast.error(error.message || "Error signing out", {
@@ -204,7 +207,7 @@ const Profile = () => {
           onChange={handleFileChange}
         />
         <img
-          src={currentUser.avatar || "default_avatar.png"}
+          src={currentUser?.avatar || "default_avatar.png"}
           onClick={() => fileRef.current.click()}
           alt="profile"
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2 mb-5"
