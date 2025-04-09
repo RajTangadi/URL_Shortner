@@ -25,9 +25,10 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(sigInStart());
+    // const res = await fetch("/api/auth/login", {
 
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

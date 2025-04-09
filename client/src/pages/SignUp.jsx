@@ -23,15 +23,19 @@ const SignUp = () => {
     e.preventDefault();
     setLoading(true);
     setError(null); // Clear any previous errors
+    // const res = await fetch("/api/auth/register", {
 
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       // Handle network errors and non-2xx status codes
       if (!res.ok) {
