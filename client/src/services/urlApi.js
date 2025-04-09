@@ -19,10 +19,10 @@ export const urlApi = createApi({
       providesTags: ["Urls"],
     }),
     createShortUrl: builder.mutation({
-      query: (originalUrl) => ({
+      query: ({originalUrl,shortCode}) => ({
         url: "urls/shorten",
         method: "POST",
-        body: { originalUrl },
+        body: { originalUrl,shortCode },
       }),
       invalidatesTags: ["Urls"],
     }),
