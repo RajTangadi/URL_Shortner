@@ -3,7 +3,7 @@ import { FaCopy } from "react-icons/fa";
 import { MdOutlineQrCode } from "react-icons/md";
 import { useGetUrlsQuery, useCreateShortUrlMutation } from "../services/urlApi";
 import { Slide, toast } from "react-toastify";
-import {QRCodeSVG} from 'qrcode.react';
+import { QRCodeSVG } from "qrcode.react";
 
 const URLShortener = () => {
   const [originalUrl, setOriginalUrl] = useState("");
@@ -12,7 +12,8 @@ const URLShortener = () => {
   const [qrModalUrl, setQrModalUrl] = useState(null);
 
   const { data: urls = [], isLoading } = useGetUrlsQuery();
-  const [createShortUrl] = useCreateShortUrlMutation();
+  const [createShortUrl, { isLoading: isCreating }] =
+    useCreateShortUrlMutation();
 
   const formatDate = (dateString) => {
     const [month, day, year] = dateString.split("-");
@@ -28,7 +29,10 @@ const URLShortener = () => {
     e.preventDefault();
     if (!originalUrl.trim()) return;
     try {
-      const shortUrl = await createShortUrl({ originalUrl, shortCode }).unwrap();
+      const shortUrl = await createShortUrl({
+        originalUrl,
+        shortCode,
+      }).unwrap();
       toast.success("Short url created successfully", {
         position: "top-center",
         autoClose: 1000,
@@ -70,7 +74,8 @@ const URLShortener = () => {
           <span className="text-pink-500">Loooong Links</span> in seconds 🚀
         </h1>
         <p className="mt-4 text-gray-400">
-          A modern, fast, and reliable URL shortener built to make sharing easier.
+          A modern, fast, and reliable URL shortener built to make sharing
+          easier.
         </p>
       </div>
 
@@ -97,7 +102,7 @@ const URLShortener = () => {
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition-all"
         >
-          Shorten URL
+          {isCreating ? "Shortening..." : "Shorten"}
         </button>
       </form>
 
@@ -130,7 +135,10 @@ const URLShortener = () => {
                   : "bg-green-800 text-green-300";
 
                 return (
-                  <tr key={link?.id} className="border-b border-gray-800 hover:bg-[#1f2236] transition-all">
+                  <tr
+                    key={link?.id}
+                    className="border-b border-gray-800 hover:bg-[#1f2236] transition-all"
+                  >
                     <td className="py-3 px-4 text-blue-400 flex items-center gap-2">
                       <a href={link?.shortUrl} target="_blank" rel="noreferrer">
                         {link?.shortUrl}
