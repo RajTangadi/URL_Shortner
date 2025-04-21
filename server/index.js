@@ -5,19 +5,24 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.router.js";
 import urlRoutes from "./routes/url.route.js";
 import redirectRoutes from "./routes/redirect.route.js";
-dotenv.config();
-const app = express();
+import analyticsRoutes from "./routes/analytics.js";
 import connectDB from "./db/connectDB.js";
 
+dotenv.config();
+
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-//middleware
+// Middleware
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+
+// Routes
 app.use("/api/auth", authRouter);
 app.use("/api/urls", urlRoutes);
 app.use("/", redirectRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 // Connect to the database first, then start the server
 const startServer = async () => {
